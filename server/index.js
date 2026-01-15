@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://skill-forge-hazel.vercel.app"],
+    origin: ["http://localhost:3000", "https://skill-forge-roan.vercel.app"],
     credentials: true,
   })
 );
