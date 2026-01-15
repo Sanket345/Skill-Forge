@@ -22,7 +22,7 @@ async function sendVerificationEmail(email, otp) {
   try {
     const mailResponse = await mailSender(
       email,
-      "Verification Email for StudyNotion",
+      "Verification Email for SkillForge",
       otp
     );
     console.log("Email sent successfully:", mailResponse);
