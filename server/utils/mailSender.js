@@ -1,24 +1,31 @@
-const nodemailer = require("nodemailer");
+const axios = require("axios");
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
-  },
-});
-
-const mailSender = async (email, title, body) => {
+const mailSender = async (toEmail, subject, htmlContent) => {
   try {
-    console.log("Mail sender hit");
-    return await transporter.sendMail({
-      from: `"SkillForge ~ by Sanket" <${process.env.MAIL_USER}>`,
-      to: email,
-      subject: title,
-      html: body,
-    });
+    await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: "SkillForge",
+          email: "portm372@gmail.com", // must be verified in Brevo
+        },
+        to: [
+          {
+            email: toEmail,
+          },
+        ],
+        subject: subject,
+        htmlContent: htmlContent,
+      },
+      {
+        headers: {
+          "api-key": process.env.BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      }
+    );
   } catch (error) {
-    console.log("MAIL ERROR:", error.message);
+    console.error("MAIL SENDER ERROR:", error.response?.data || error.message);
     throw error;
   }
 };
